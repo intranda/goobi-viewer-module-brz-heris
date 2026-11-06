@@ -16,6 +16,7 @@
 package io.goobi.viewer.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +26,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.solr.common.SolrDocument;
 
 import io.goobi.viewer.controller.DataManager;
-import io.goobi.viewer.exceptions.DAOException;
+import io.goobi.viewer.controller.JsonTools;
+import io.goobi.viewer.exceptions.IndexAugmenterException;
 import io.goobi.viewer.exceptions.ModuleMissingException;
+import io.goobi.viewer.model.job.ITaskType;
 import io.goobi.viewer.model.security.user.User;
 import io.goobi.viewer.modules.heris.ModuleConfiguration;
 import io.goobi.viewer.modules.heris.Version;
@@ -62,7 +65,7 @@ public class HerisModule implements IModule {
 
     @Override
     public String getVersion() {
-        return Version.VERSION + "-" + Version.BUILDDATE + "-" + Version.BUILDVERSION;
+        return JsonTools.shortFormatVersionString(Version.asJSON());
     }
 
     @Override
@@ -102,13 +105,6 @@ public class HerisModule implements IModule {
     }
 
     @Override
-    public List<String> getWidgetUsageContributions() {
-        List<String> ret = new ArrayList<>();
-        // TODO Add "usage" widget contributions here
-        return ret;
-    }
-
-    @Override
     public List<String> getAdminContributions() {
         List<String> ret = new ArrayList<>();
         // TODO Add paths to your admin backend contributions here
@@ -127,12 +123,18 @@ public class HerisModule implements IModule {
     }
 
     @Override
-    public void augmentReIndexRecord(String pi, String dataRepository, String namingScheme) throws DAOException {
+    public List<ITaskType> getTaskTypes() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void augmentReIndexRecord(String pi, String dataRepository, String namingScheme) throws IndexAugmenterException {
         // TODO Do something in the module context when exporting record for re-indexing an entire record
     }
 
     @Override
-    public boolean augmentReIndexPage(String pi, int page, SolrDocument doc, String dataRepository, String namingScheme) throws Exception {
+    public boolean augmentReIndexPage(String pi, int page, SolrDocument doc, String dataRepository, String namingScheme)
+            throws IndexAugmenterException {
         // TODO Do something in the module context when exporting record for re-indexing an single page of a record
         return true;
     }
@@ -145,19 +147,16 @@ public class HerisModule implements IModule {
 
     @Override
     public List<String> getLoginNavigationContributions() {
-        // TODO Auto-generated method stub
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public int deleteUserContributions(User user) {
-        // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
     public int moveUserContributions(User fromUser, User toUser) {
-        // TODO Auto-generated method stub
         return 0;
     }
 }

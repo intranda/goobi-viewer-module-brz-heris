@@ -16,7 +16,6 @@
 package io.goobi.viewer;
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +30,7 @@ import io.goobi.viewer.solr.SolrSearchIndex;
 public abstract class AbstractModuleSolrEnabledTest extends AbstractModuleTest {
 
     protected static final String PI_KLEIUNIV = "PPN517154005";
-    protected static long iddocKleiuniv = -1;
+    protected static String iddocKleiuniv = null;
 
     private SolrClient client;
 
@@ -47,10 +46,10 @@ public abstract class AbstractModuleSolrEnabledTest extends AbstractModuleTest {
         DataManager.getInstance().injectSearchIndex(new SolrSearchIndex(client));
 
         // Load current IDDOC for PPN517154005, which is used in many tests
-        if (iddocKleiuniv == -1) {
+        if (iddocKleiuniv == null) {
             iddocKleiuniv = DataManager.getInstance().getSearchIndex().getIddocFromIdentifier(PI_KLEIUNIV);
         }
-        Assertions.assertNotEquals(0, iddocKleiuniv);
+        Assertions.assertNotNull(iddocKleiuniv);
     }
 
     @AfterEach

@@ -1,31 +1,34 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:f="http://xmlns.jcp.org/jsf/core" 
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://xmlns.jcp.org/jsf/facelets" 
-    xmlns:composite="http://xmlns.jcp.org/jsf/composite">
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <ui:define name="metadata">
-        <f:metadata>
-            <f:event type="preRenderView" listener="#{metadataBean.loadMetadata}" />
-        </f:metadata>
-    </ui:define>
-
-    <composite:interface>
-        <composite:attribute name="widget" type="io.goobi.viewer.model.cms.CMSSidebarElement" required="true" />
-    </composite:interface>
-
-    <composite:implementation>
-    
-        <h:panelGroup id="widgetHerisLinks" styleClass="widget" layout="block" rendered="#{userBean.loggedIn and activeDocumentBean.recordLoaded}">
-            <h2>#{msgheris.widgetTitle}</h2>
+    <!-- Sidebar contribution, included via ui:include by the core (see HerisModule#getSidebarContributions) -->
+    <ui:param
+        name="herisLinks"
+        value="#{herisBean.externalLinks}" />
+    <h:panelGroup
+        id="widgetHerisLinks"
+        layout="block"
+        styleClass="widget widget-heris-links"
+        rendered="#{not empty herisLinks}">
+        <div class="widget__topbar widget-heris-links__topbar">
+            <h2 class="widget__title widget-heris-links__title">#{msgheris.widgetTitle}</h2>
+        </div>
+        <div class="widget__body widget-heris-links__body">
             <ul>
-                <ui:repeat var="link" value="#{herisBean.externalLinks}">
+                <ui:repeat
+                    var="link"
+                    value="#{herisLinks}">
                     <li>
-                        <a href="#{link.one}" target="_blank">#{link.two}</a>
+                        <a
+                            href="#{link.one}"
+                            target="_blank"
+                            rel="noopener noreferrer">#{link.two}</a>
                     </li>
-                </ui:repeat>  
+                </ui:repeat>
             </ul>
-        </h:panelGroup> 
-		
-	</composite:implementation>
+        </div>
+    </h:panelGroup>
+
 </ui:composition>

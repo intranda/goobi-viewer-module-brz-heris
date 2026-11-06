@@ -5,383 +5,246 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.goobi.viewer.module</groupId>
 	<artifactId>module-heris</artifactId>
-	<version>23.11-SNAPSHOT</version>
+	<version>26.11-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 
 	<name>Goobi viewer - Heris Module</name>
-	<url>https://github.com/intranda/goobi-viewer-module-heris</url>
+	<url>https://gitea.intranda.com/goobi-viewer/goobi-viewer-module-brz-heris</url>
 
 
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>21</maven.compiler.release>
 
-        <!-- Manifest information -->
-        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-        <buildDate>${maven.build.timestamp}</buildDate>
+		<!-- Manifest information -->
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<buildDate>${maven.build.timestamp}</buildDate>
 
-        <!-- Sonar -->
-        <sonar.projectKey>intranda_goobi-viewer-module-brz-heris</sonar.projectKey>
-        <sonar.organization>intranda</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.java.source>17</sonar.java.source>
-        <sonar.java.target>17</sonar.java.target>
+		<!-- Sonar -->
+		<sonar.projectKey>intranda_goobi-viewer-module-brz-heris</sonar.projectKey>
+		<sonar.organization>intranda</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.java.source>21</sonar.java.source>
+		<sonar.java.target>21</sonar.java.target>
 
+		<viewer-core.version>26.11-SNAPSHOT</viewer-core.version>
 
-		<viewer-core.version>24.05-SNAPSHOT</viewer-core.version>
+		<!-- Provided by viewer-core -->
+		<log4j.version>2.26.1</log4j.version>
 
-		<commons-configuration2.version>2.10.1</commons-configuration2.version>
-        <commons-io.version>2.16.1</commons-io.version>
-        <commons-lang3.version>3.14.0</commons-lang3.version>
-        <eclipselink.version>4.0.3</eclipselink.version>
-        <h2.version>1.4.200</h2.version>
-		<jakarta.annotation-api.version>1.3.5</jakarta.annotation-api.version>
-		<jakarta.persistence.version>3.2.0</jakarta.persistence.version>
-		<jakarta.servlet-api.version>4.0.4</jakarta.servlet-api.version>
-		<javax.faces.version>2.4.0</javax.faces.version>
-		<json.version>20240303</json.version>
-		<log4j.version>2.23.1</log4j.version>
-        <solr.version>9.6.1</solr.version>
-        <weld-servlet-shaded.version>3.1.9.Final</weld-servlet-shaded.version>
-        <slf4j.version>2.0.13</slf4j.version>
-        
-        <!-- Tests -->
-        <junit.version>5.10.2</junit.version>
-        <mockito.version>5.12.0</mockito.version>
+		<!-- Tests -->
+		<h2.version>2.4.240</h2.version>
+		<junit.version>6.1.3</junit.version>
+		<mockito.version>5.24.0</mockito.version>
 	</properties>
 
 
 	<scm>
-        <url>scm:git:https://gitea.intranda.com/goobi-viewer/goobi-viewer-module-brz-heris</url>
-        <connection>scm:git:https://gitea.intranda.com/goobi-viewer/goobi-viewer-module-brz-heris</connection>
-    </scm>
+		<url>scm:git:https://gitea.intranda.com/goobi-viewer/goobi-viewer-module-brz-heris</url>
+		<connection>scm:git:https://gitea.intranda.com/goobi-viewer/goobi-viewer-module-brz-heris</connection>
+	</scm>
 
 
-    <repositories>
-        <repository>
-            <id>intranda-releases</id>
-            <url>https://nexus.intranda.com/repository/maven-releases</url>
-        </repository>
-        <repository>
-            <id>intranda-snapshots</id>
-            <url>https://nexus.intranda.com/repository/maven-snapshots</url>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>intranda-public</id>
+			<url>https://nexus.intranda.com/repository/maven-public</url>
+		</repository>
+	</repositories>
 
 
-    <distributionManagement>
-        <repository>
-            <id>intranda-releases</id>
-            <url>https://nexus.intranda.com/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>intranda-snapshots</id>
-            <url>https://nexus.intranda.com/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>intranda-releases</id>
+			<url>https://nexus.intranda.com/repository/maven-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>intranda-snapshots</id>
+			<url>https://nexus.intranda.com/repository/maven-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>io.goobi.viewer</groupId>
-            <artifactId>viewer-core</artifactId>
-            <version>${viewer-core.version}</version>
-        </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>${commons-configuration2.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.faces</artifactId>
-            <version>${javax.faces.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta.annotation-api.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>${jakarta.persistence.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jakarta.servlet-api.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${json.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.core</artifactId>
-            <version>${eclipselink.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.solr</groupId>
-            <artifactId>solr-solrj</artifactId>
-            <version>${solr.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet-shaded</artifactId>
-            <version>${weld-servlet-shaded.version}</version>
-            <!-- Provided by Goobi viewer Core -->
-            <scope>provided</scope>
-        </dependency>
-        <!-- SLF4J nop is needed to get rid of logging spam -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
 
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
+	<dependencies>
+		<dependency>
+			<groupId>io.goobi.viewer</groupId>
+			<artifactId>viewer-core</artifactId>
+			<version>${viewer-core.version}</version>
+		</dependency>
+
+		<!-- Provided by viewer-core -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito.version}</version>
-            <scope>test</scope>
-        </dependency>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.goobi.viewer</groupId>
+			<artifactId>viewer-core</artifactId>
+			<version>${viewer-core.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    </dependencies>
 
-
-    <build>
-        <plugins>
-            <!-- used for mvn versions:display-plugin-updates -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.4.1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.8.8</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+	<build>
+		<plugins>
 			<!-- Maven Compiler Plugin -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.12.1</version>
-                <configuration>
-                    <compilerArgs>
-                        <arg>-Xlint:deprecation</arg>
-                        <arg>-Xlint:unchecked</arg>
-                    </compilerArgs>
+				<version>3.16.0</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-Xlint:deprecation</arg>
+						<arg>-Xlint:unchecked</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 			<!-- Maven Surefire Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>3.6.0</version>
 				<configuration>
 					<excludes>
 						<exclude>**/Abstract*.java</exclude>
-                    </excludes>
-                    <systemPropertyVariables>
-                        <java.util.logging.config.file>src/test/resources/log4j2.test.xml</java.util.logging.config.file>
-                    </systemPropertyVariables>
+					</excludes>
 				</configuration>
 			</plugin>
-            <!-- Maven JAR Plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-                    <archive>
-                        <addMavenDescriptor>false</addMavenDescriptor>
-                        <manifestEntries>
-                            <ApplicationName>goobi-viewer-module-heris</ApplicationName>
-                            <version>${project.version}</version>
-                            <Implementation-Version>${buildNumber}</Implementation-Version>
-                            <Implementation-Build-Date>${buildDate}</Implementation-Build-Date>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <!-- get git version number -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>4.9.10</version>
-                <configuration>
-                    <commitIdGenerationMode>flat</commitIdGenerationMode>
-                    <gitDescribe>
-                        <skip>true</skip>
-                    </gitDescribe>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <shortRevisionLength>7</shortRevisionLength>
-                    <doCheck>false</doCheck>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- used for test coverage report in Jenkins -->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.16.2</version>
-                <configuration>
-                    <rulesUri>file://${basedir}/version-number-rules.xml</rulesUri>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
-                <executions>
-                    <execution>
-                        <id>analyze</id>
-                        <goals>
-                            <goal>analyze-only</goal>
-                        </goals>
-                        <configuration>
-                            <failOnWarning>false</failOnWarning>
-                            <ignoredUnusedDeclaredDependencies>
-                                <!-- JSTL is used within JSF for example c:forEach -->
-                                <ignoredUnusedDeclaredDependency>javax.servlet:jstl</ignoredUnusedDeclaredDependency>
-
-                                <!-- junit-jupiter is used to run the tests, otherwise it will fail in maven -->
-                                <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter</ignoredUnusedDeclaredDependency>
-                            </ignoredUnusedDeclaredDependencies>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+			<!-- Maven JAR Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+						<manifestEntries>
+							<ApplicationName>goobi-viewer-module-heris</ApplicationName>
+							<version>${project.version}</version>
+							<Implementation-Version>${buildNumber}</Implementation-Version>
+							<Implementation-Build-Date>${buildDate}</Implementation-Build-Date>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- get git version number -->
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<version>4.9.10</version>
+				<configuration>
+					<commitIdGenerationMode>flat</commitIdGenerationMode>
+					<gitDescribe>
+						<skip>true</skip>
+					</gitDescribe>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<shortRevisionLength>7</shortRevisionLength>
+					<doCheck>false</doCheck>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- used for test coverage report in Jenkins -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.15</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.8.1</version>
+				<executions>
+					<execution>
+						<id>analyze</id>
+						<goals>
+							<goal>analyze-only</goal>
+						</goals>
+						<configuration>
+							<failOnWarning>false</failOnWarning>
+							<ignoredUnusedDeclaredDependencies>
+								<!-- junit-jupiter is used to run the tests, otherwise it will fail in maven -->
+								<ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter</ignoredUnusedDeclaredDependency>
+							</ignoredUnusedDeclaredDependencies>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
-
-    <profiles>
-        <profile>
-            <id>test-jars</id>
-            <activation>
-                <property>
-                    <name>!m2e.version</name>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>io.goobi.viewer</groupId>
-                    <artifactId>viewer-core</artifactId>
-                    <version>${viewer-core.version}</version>
-                    <type>test-jar</type>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

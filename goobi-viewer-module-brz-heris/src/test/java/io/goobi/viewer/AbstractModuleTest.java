@@ -31,12 +31,10 @@ public abstract class AbstractModuleTest extends AbstractTest {
     public static void setUpClass() throws Exception {
         AbstractTest.setUpClass();
 
-        // Register module in the core
-        HerisModule module = new HerisModule();
+        // Register module in the core (rejected if another test class has already registered it)
+        DataManager.getInstance().registerModule(new HerisModule());
 
-        DataManager.getInstance().registerModule(module);
-
-        // Inject custom module config
-        module.injectConfiguration(new ModuleConfiguration(TEST_CONFIG_PATH));
+        // Inject a fresh custom module config into the registered instance so that config changes made by other test classes don't leak
+        HerisModule.getInstance().injectConfiguration(new ModuleConfiguration(TEST_CONFIG_PATH));
     }
 }

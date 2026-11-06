@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +39,7 @@ import io.goobi.viewer.modules.HerisModule;
 import io.goobi.viewer.modules.heris.ModuleConfiguration;
 
 @Named
+@RequestScoped
 public class HerisBean implements Serializable {
 
     private static final long serialVersionUID = 3963436132111065936L;
