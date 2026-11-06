@@ -28,6 +28,7 @@ import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.event.Event;
 import org.apache.commons.configuration2.event.EventListener;
 import org.apache.commons.configuration2.tree.ImmutableNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -127,7 +128,7 @@ public final class ModuleConfiguration extends AbstractConfiguration {
         List<HierarchicalConfiguration<ImmutableNode>> facetFields = getLocalConfigurationsAt("authority.valueMappingList.item");
         if (facetFields != null && !facetFields.isEmpty()) {
             for (HierarchicalConfiguration<ImmutableNode> fieldConfig : facetFields) {
-                if (authority.equals(fieldConfig.getString("[@authority]"))) {
+                if (StringUtils.equals(authority, fieldConfig.getString("[@authority]"))) {
                     return fieldConfig.getString(".");
                 }
             }
@@ -137,40 +138,47 @@ public final class ModuleConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * 
-     * @param host
+     *
+     * @param authority
      * @return Configured value; empty string if none found
      * @should return correct value
+     * @should skip patterns without authority attribute
      */
     public String getIndexFieldForAuthority(String authority) {
-        List<HierarchicalConfiguration<ImmutableNode>> fieldList = getLocalConfigurationsAt("urlPatterns.pattern");
-        if (fieldList != null) {
-            for (HierarchicalConfiguration<ImmutableNode> subElement : fieldList) {
-                if (subElement.getString("[@authority]").equals(authority)) {
-                    return subElement.getString("[@field]", "");
-                }
-            }
-        }
-
-        return "";
+        HierarchicalConfiguration<ImmutableNode> pattern = getUrlPatternConfigForAuthority(authority);
+        return pattern != null ? pattern.getString("[@field]", "") : "";
     }
 
     /**
-     * 
-     * @param host
+     *
+     * @param authority
      * @return Configured value; empty string if none found
      * @should return correct value
+     * @should skip patterns without authority attribute
      */
     public String getUrlPatternForAuthority(String authority) {
-        List<HierarchicalConfiguration<ImmutableNode>> fieldList = getLocalConfigurationsAt("urlPatterns.pattern");
-        if (fieldList != null) {
-            for (HierarchicalConfiguration<ImmutableNode> subElement : fieldList) {
-                if (subElement.getString("[@authority]").equals(authority)) {
-                    return subElement.getString(".", "");
+        HierarchicalConfiguration<ImmutableNode> pattern = getUrlPatternConfigForAuthority(authority);
+        return pattern != null ? pattern.getString(".", "") : "";
+    }
+
+    /**
+     *
+     * @param authority
+     * @return First <code>urlPatterns/pattern</code> element whose <code>authority</code> attribute matches the given value; null if none found
+     */
+    private HierarchicalConfiguration<ImmutableNode> getUrlPatternConfigForAuthority(String authority) {
+        if (StringUtils.isEmpty(authority)) {
+            return null;
+        }
+        List<HierarchicalConfiguration<ImmutableNode>> patternList = getLocalConfigurationsAt("urlPatterns.pattern");
+        if (patternList != null) {
+            for (HierarchicalConfiguration<ImmutableNode> subElement : patternList) {
+                if (authority.equals(subElement.getString("[@authority]"))) {
+                    return subElement;
                 }
             }
         }
 
-        return "";
+        return null;
     }
 }

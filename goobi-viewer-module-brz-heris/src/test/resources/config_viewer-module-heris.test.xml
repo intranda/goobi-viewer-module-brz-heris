@@ -14,6 +14,8 @@
     </authority>
     
     <urlPatterns>
+        <!-- Pattern without authority attribute; must be skipped -->
+        <pattern host="goobi.io" field="MD_NO_AUTHORITY">{SCHEME}://{HOST}/noauthority/{ID}</pattern>
         <pattern authority="foo.example.com" field="PI">{SCHEME}://{HOST}/{ID}</pattern>
     </urlPatterns>
 </config>

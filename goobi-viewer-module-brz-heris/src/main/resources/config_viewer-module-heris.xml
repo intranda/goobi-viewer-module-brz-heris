@@ -16,6 +16,6 @@
     </authority>
     
     <urlPatterns>
-        <pattern host="goobi.io" field="MD_FOO_ID">{SCHEME}://{HOST}/{ID}</pattern>
+        <pattern authority="portal.bda.gv.at" field="MD_FOO_ID">{SCHEME}://{HOST}/{ID}</pattern>
     </urlPatterns>
 </config>

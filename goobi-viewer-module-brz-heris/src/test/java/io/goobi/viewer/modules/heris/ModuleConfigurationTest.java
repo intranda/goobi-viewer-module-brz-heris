@@ -96,6 +96,19 @@ class ModuleConfigurationTest extends AbstractModuleTest {
     }
 
     /**
+     * @see ModuleConfiguration#getIndexFieldForAuthority(String)
+     * @verifies skip patterns without authority attribute
+     */
+    @Test
+    void getIndexFieldForAuthority_shouldSkipPatternsWithoutAuthorityAttribute() throws Exception {
+        ModuleConfiguration config = ((HerisModule) DataManager.getInstance().getModule(HerisModule.ID)).getConfiguration();
+        // The test config contains a pattern without an authority attribute before the matching one
+        assertEquals(SolrConstants.PI, config.getIndexFieldForAuthority("foo.example.com"));
+        assertEquals("", config.getIndexFieldForAuthority("unknown.example.com"));
+        assertEquals("", config.getIndexFieldForAuthority(null));
+    }
+
+    /**
      * @see ModuleConfiguration#getUrlPatternForAuthority(String)
      * @verifies return correct value
      */
@@ -103,5 +116,18 @@ class ModuleConfigurationTest extends AbstractModuleTest {
     void getUrlPatternForAuthority_shouldReturnCorrectValue() throws Exception {
         assertEquals("{SCHEME}://{HOST}/{ID}",
                 ((HerisModule) DataManager.getInstance().getModule(HerisModule.ID)).getConfiguration().getUrlPatternForAuthority("foo.example.com"));
+    }
+
+    /**
+     * @see ModuleConfiguration#getUrlPatternForAuthority(String)
+     * @verifies skip patterns without authority attribute
+     */
+    @Test
+    void getUrlPatternForAuthority_shouldSkipPatternsWithoutAuthorityAttribute() throws Exception {
+        ModuleConfiguration config = ((HerisModule) DataManager.getInstance().getModule(HerisModule.ID)).getConfiguration();
+        // The test config contains a pattern without an authority attribute before the matching one
+        assertEquals("{SCHEME}://{HOST}/{ID}", config.getUrlPatternForAuthority("foo.example.com"));
+        assertEquals("", config.getUrlPatternForAuthority("unknown.example.com"));
+        assertEquals("", config.getUrlPatternForAuthority(null));
     }
 }
